@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Address {
+  // ID
+  id String @id @unique @default(uuid())
+
+  // Relation
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String   @unique
+
+  // Model
+  address      String
+  neighborhood String
+  number       String
+  city         String
+  state        String
+  cep          String
+}
+
+model Customer {
+  // ID
+  id String @id @default(uuid())
+
+  // Relation
+
+  // Model
+  name    String
+  cpf     String   @unique
+  phone   String
+  address Address?
+  areas   Area[]
+}
+
+model Point {
+  // ID
+  id String @id @default(uuid())
+
+  // Relation
+  area   Area   @relation(fields: [areaId], references: [id])
+  areaId String
+
+  // Model
+  lat Float
+  lng Float
+}
+
+model Area {
+  // ID
+  id String @id @default(uuid())
+
+  // Relation
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String
+
+  // Model
+  name      String
+  area      Float
+  color     String
+  path      Point[]
+  sprayings Spraying[]
+}
+
+model Spraying {
+  // ID
+  id String @id @default(uuid())
+
+  // Relation
+  area    Area   @relation(fields: [areadId], references: [id])
+  areadId String
+
+  drone   Drone  @relation(fields: [droneId], references: [id])
+  droneId String
+
+  // Model
+  date DateTime
+  percentage Float @default(1)
+}
+
+model User {
+  // ID
+  id String @id @default(uuid())
+
+  // Relation
+
+  // Model
+  email    String @unique
+  password String
+  name     String?
+  avatarId String?
+}
+
+model Drone {
+  // ID
+  id String @id @default(uuid())
+
+  // Relation
+  sprayings Spraying[]
+
+  // Model
+  name         String
+  model        String
+  manufacturer String
+  year         String
+  price        Float
+  date         DateTime
+}
