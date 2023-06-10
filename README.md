@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo.png" alt="Agrek logo" />
+  <img src=".github/logo.png" alt="Agrek logo" />
 </p>
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
